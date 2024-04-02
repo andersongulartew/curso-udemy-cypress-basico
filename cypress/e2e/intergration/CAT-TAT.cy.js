@@ -153,7 +153,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
 
         cy.get('input[type="file"]')
             .selectFile('./cypress/fixtures/example.json', {action: 'drag-drop'})
-            //.should('be.visible')
+            .should('be.visible')
 
     })
 
