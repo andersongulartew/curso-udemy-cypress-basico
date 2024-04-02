@@ -149,7 +149,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
             //.should('be.visible')
     })
 
-    it('seleciona um arquivo simulando um drag-and-drop', () =>{
+    it('test selecionar um arquivo simulando um drag-and-drop', () =>{
 
         cy.get('input[type="file"]')
             .selectFile('./cypress/fixtures/example.json', {action: 'drag-drop'})
@@ -157,13 +157,42 @@ describe("Central de Atendimento ao Cliente TAT", () => {
 
     })
 
-
     it('test selecionar um arquivo utilizando uma fixture para a qual foi dada um alias', ()=>{
 
         cy.fixture('example.json').as('file')
         cy.get('input[type="file"]')
             .selectFile('@file')
     })
+
+    it('test verificar que a política de privacidade abre em outra aba sem clique',()=>{
+
+        // cy.get('a[href="privacy.html"]') //LINK DENTRO DO IMPUT
+        //     .should('have.attr', 'target', '_blank')
+
+            //OUTRA OPÇÃO
+           cy.get('#privacy a')
+            .should('have.attr', 'target', '_blank')
+    })
+
+    it('test acessar a página da política de privacidade removendo o target e então clicando no link', () => {
+
+        // cy.get('a[href="privacy.html"]')    //LINK DENTRO DO IMPUT
+        //     .invoke('removeAttr', 'target')
+        //     .click()
+
+        //OUTRA OPÇÃO
+        cy.get('#privacy a')
+            .invoke('removeAttr', 'target')
+            .click()
+
+    })
+
+    it.only('test testar a página da política de privacidade de forma independente',()=>{
+
+        cy.visit("./src/privacy.html")
+    })
+
+
 
 
 })
