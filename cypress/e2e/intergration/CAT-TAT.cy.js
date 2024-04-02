@@ -149,12 +149,21 @@ describe("Central de Atendimento ao Cliente TAT", () => {
             //.should('be.visible')
     })
 
-    it.only('seleciona um arquivo simulando um drag-and-drop', () =>{
+    it('seleciona um arquivo simulando um drag-and-drop', () =>{
 
         cy.get('input[type="file"]')
             .selectFile('./cypress/fixtures/example.json', {action: 'drag-drop'})
             //.should('be.visible')
 
     })
+
+
+    it('test selecionar um arquivo utilizando uma fixture para a qual foi dada um alias', ()=>{
+
+        cy.fixture('example.json').as('file')
+        cy.get('input[type="file"]')
+            .selectFile('@file')
+    })
+
 
 })
