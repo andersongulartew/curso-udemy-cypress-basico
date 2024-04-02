@@ -45,7 +45,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
     it(" test incluindo telefone invalido, campo deve continuar vazio", () => {
         cy.get('#phone')
             .type("lfgmnnfenfgjk")
-            //.should('have.value', '')
+            .should('have.value', '')
     })
 
     it(" test exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário", () => {
@@ -62,27 +62,27 @@ describe("Central de Atendimento ao Cliente TAT", () => {
     it(' test preenche e limpa os campos nome, sobrenome, email e telefone', () => {
 
         cy.get('input[id="firstName"]').type("Anderson Gularte")
-            //.should('have.value', 'Anderson Gularte')
-            //.clear().should('have.value', '')
+            .should('have.value', 'Anderson Gularte')
+            .clear().should('have.value', '')
 
         cy.get('input[id="lastName"]').type("Wodnoff")
-            //.should('have.value', 'Wodnoff')
-            //.clear().should('have.value', '')
+            .should('have.value', 'Wodnoff')
+            .clear().should('have.value', '')
 
 
         cy.get('#email').type("andersonwodnff@hotmail.com")
-           // .should('have.value', 'andersonwodnff@hotmail.com')
-           // .clear().should('have.value', '')
+            .should('have.value', 'andersonwodnff@hotmail.com')
+            .clear().should('have.value', '')
 
         cy.get('#phone').type("51985776172")
-           // .should('have.value', '51985776172')
-           //.clear().should('have.value', '')
+           .should('have.value', '51985776172')
+           .clear().should('have.value', '')
     })
 
     it('test exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', () => {
 
         cy.contains('button', 'Enviar').click()
-        //cy.get('.error').should('be.visible')
+        cy.get('.error').should('be.visible')
     })
 
 
@@ -98,13 +98,13 @@ describe("Central de Atendimento ao Cliente TAT", () => {
     //select
     it('test selecionar um produto de cada por seu texto', () => {
         cy.get('#product')
-            .select('youtube')//.should('value', 'youtube')
+            .select('youtube').should('value', 'youtube')
 
         cy.get('#product')
-            .select('Mentoria')//.should('value', 'mentoria')
+            .select('Mentoria').should('value', 'mentoria')
 
         cy.get('#product')
-            .select('Blog')//.should('value', 'blog')
+            .select('Blog').should('value', 'blog')
 
 
     })
@@ -112,7 +112,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
     it('test marcar o tipo de atendimento "Feedback', () => {
 
         cy.get('input[type="radio"]').check("feedback")
-          //.should('value', 'feedback')
+          .should('value', 'feedback')
 
     })
 
@@ -129,8 +129,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
         cy.get('input[type="radio"]')
             .each(function ($radio){
                // cy.wrap($radio).check()
-                cy.wrap($radio)
-                    //should('be.checked')
+                cy.wrap($radio).should('be.checked')
             })
     })
 
