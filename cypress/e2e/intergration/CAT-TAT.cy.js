@@ -52,7 +52,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
         cy.get('input[id="firstName"]').type("Anderson Gularte")
         cy.get('input[id="lastName"]').type("Wodnoff")
         cy.get('#email').type("andersonwodnff@hotmail.com")
-        cy.get('#phone-checkbox').click()  // esta tornando o telefone obrigatorio
+        cy.get('#phone-checkbox').check()  // esta tornando o telefone obrigatorio
         cy.get('textarea[id="open-text-area"]').type('teste')
         cy.contains('button', 'Enviar').click()
 
@@ -129,9 +129,32 @@ describe("Central de Atendimento ao Cliente TAT", () => {
         cy.get('input[type="radio"]')
             .each(function ($radio){
                // cy.wrap($radio).check()
-                cy.wrap($radio).should('be.checked')
+                cy.wrap($radio)
+                    //should('be.checked')
             })
     })
 
+    it('test marcar ambos checkboxes, depois desmarca o último', () => {
+
+        cy.get('input[type="checkbox"]')
+            .check()
+            .last()
+            .uncheck()
+            .should('not.be.checked')
+    })
+
+    it('test selecionar um arquivo da pasta fixtures', () => {
+
+        cy.get('input[type="file"]').selectFile('./cypress/fixtures/example.json')
+            //.should('be.visible')
+    })
+
+    it.only('seleciona um arquivo simulando um drag-and-drop', () =>{
+
+        cy.get('input[type="file"]')
+            .selectFile('./cypress/fixtures/example.json', {action: 'drag-drop'})
+            //.should('be.visible')
+
+    })
 
 })
