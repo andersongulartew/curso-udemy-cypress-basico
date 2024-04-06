@@ -187,7 +187,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
 
     })
 
-    it.only('test testar a página da política de privacidade de forma independente',()=>{
+    it('test testar a página da política de privacidade de forma independente',()=>{
 
         cy.visit("./src/privacy.html")
     })
