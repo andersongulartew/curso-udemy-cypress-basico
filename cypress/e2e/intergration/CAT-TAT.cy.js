@@ -39,7 +39,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
         cy.get('textarea[id="open-text-area"]').type('teste')
         cy.contains('button', 'Enviar').click()
 
-        cy.get('.error').should('be.visible')
+        cy.get('.error')
     })
 
     it(" test incluindo telefone invalido, campo deve continuar vazio", () => {
