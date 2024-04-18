@@ -1,6 +1,7 @@
 //<reference types="Cypress" />
 
 describe("Central de Atendimento ao Cliente TAT", () => {
+  const TREE_SECONDS_IN_MS = 3000
   beforeEach(() => {
     cy.visit("./src/index.html");
   });
@@ -13,12 +14,16 @@ describe("Central de Atendimento ao Cliente TAT", () => {
     const Text =
       "solicito o cancelamento do programa, porque quero sair deste projeto que não há mais chance de sucesso";
 
+    cy.clock()
     cy.get('input[id="firstName"]').type("Anderson Gularte"); // preencher campo nome
     cy.get('input[id="lastName"]').type("Wodnoff"); // preencher campo sobrenome
     cy.get("#email").type("andersonwodnff@hotmail.com"); // preencher o email
     cy.get('textarea[id="open-text-area"]').type(Text);
     cy.contains("button", "Enviar").click();
-    cy.get(".success").should("be.visible"); // validando a mensagem depois do click
+
+    cy.get(".success").should("be.visible")
+    cy.tick(TREE_SECONDS_IN_MS)
+    cy.get(".success").should("not.be.visible"); // validando a mensagem depois do click
   });
 
   it(" test delay", () => {
@@ -32,22 +37,30 @@ describe("Central de Atendimento ao Cliente TAT", () => {
     //cy.contains('button','Enviar' )
   });
 
-  it("test mensagem de erro ao submeter formulario com email inválido", () => {
-    cy.get('input[id="firstName"]').type("Anderson Gularte");
-    cy.get('input[id="lastName"]').type("Wodnoff");
-    cy.get("#email").type("andersonwodnff@ggg,com");
-    cy.get("#phone").type("51985776172");
-    cy.get('textarea[id="open-text-area"]').type("teste");
-    cy.contains("button", "Enviar").click();
 
-    cy.get(".error");
-  });
+  Cypress._.times(3,function(){
+    it("test mensagem de erro ao submeter formulario com email inválido", () => {
+      cy.clock()
+      cy.get('input[id="firstName"]').type("Anderson Gularte");
+      cy.get('input[id="lastName"]').type("Wodnoff");
+      cy.get("#email").type("andersonwodnff@ggg,com");
+      // cy.get("#phone").type("51985776172");
+      cy.get('textarea[id="open-text-area"]').type("teste");
+      cy.contains("button", "Enviar").click();
+
+      cy.get(".error").should("be.visible");
+      cy.tick(TREE_SECONDS_IN_MS)
+      cy.get(".error").should("not.be.visible");
+    });
+  })
+
 
   it(" test incluindo telefone invalido, campo deve continuar vazio", () => {
     cy.get("#phone").type("lfgmnnfenfgjk").should("have.value", "");
   });
 
   it(" test exibe mensagem de erro quando o telefone se tornar obrigatório mas não é preenchido antes do envio do formulário", () => {
+    cy.clock()
     cy.get('input[id="firstName"]').type("Anderson Gularte");
     cy.get('input[id="lastName"]').type("Wodnoff");
     cy.get("#email").type("andersonwodnff@hotmail.com");
@@ -56,6 +69,8 @@ describe("Central de Atendimento ao Cliente TAT", () => {
     cy.contains("button", "Enviar").click();
 
     cy.get(".error").should("be.visible");
+    cy.tick(TREE_SECONDS_IN_MS)
+    cy.get(".error").should("not.be.visible");
   });
 
   it(" test preencher e limpar os campos nome, sobrenome, email e telefone", () => {
@@ -85,15 +100,24 @@ describe("Central de Atendimento ao Cliente TAT", () => {
   });
 
   it("test exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios", () => {
+    cy.clock()
     cy.contains("button", "Enviar").click();
     cy.get(".error").should("be.visible");
+    cy.tick(TREE_SECONDS_IN_MS)
+    cy.get(".error").should("not.be.visible");
   });
 
   // comando customizado reduz as linhas do comando de teste, como mostra abaixo
   // elementos estao em commands.js , e vem para o teste ao inves de preencher todos elemento no proprio teste
-  it("test enviar o formulário com sucesso usando um comando customizado", () => {
-    cy.fillMandatoryFieldsAndSubmit();
-  });
+   it("test enviar o formulário com sucesso usando um comando customizado", function(){
+
+
+     cy.fillMandatoryFieldsAndSubmit();
+     cy.clock()
+     cy.get(".success").should("be.visible")
+     cy.tick(TREE_SECONDS_IN_MS)
+     cy.get(".success").should("not.be.visible")
+ });
 
   //select
   it("test selecionar um produto de cada por seu texto", () => {
@@ -144,7 +168,13 @@ describe("Central de Atendimento ao Cliente TAT", () => {
 
   it("test selecionar um arquivo utilizando uma fixture para a qual foi dada um alias", () => {
     cy.fixture("example.json").as("file");
-    cy.get('input[type="file"]').selectFile("@file");
+    cy.get('input[type="file"]').selectFile("@file")
+
+        .should(($input) => {
+
+        expect
+        expect($input[0].files[0].name).to.equal("example.json");
+      });
   });
 
   it("test acessar a página da política de privacidade removendo o target e então clicando no link", () => {
@@ -156,9 +186,46 @@ describe("Central de Atendimento ao Cliente TAT", () => {
     cy.get("#privacy a").invoke("removeAttr", "target").click();
   });
 
-  it("test testar a página da política de privacidade de forma independente", () => {
-    cy.visit("./src/privacy.html");
-  });
+  Cypress._.times(5, function(){
+    it("test testar a página da política de privacidade de forma independente", () => {
+      cy.visit("./src/privacy.html");
 
-  
+      cy.contains('Talking About Testing').should('be.visible')
+    });
+  })
+
+  it('Usando o repeat()', () => {
+    const longText = Cypress._.repeat('Teste', 5)
+
+    cy.get('textarea')
+        .invoke('val', longText)
+        .should('have.value', longText)
+  })
+
+  it('exibe e esconde as mensagens de sucesso e erro usando o .invoke(show),.invoke(hide)', () => {
+    cy.get('.success')
+        .should('not.be.visible')
+        .invoke('show')
+        .should('be.visible')
+        .and('contain', 'Mensagem enviada com sucesso.')
+        .invoke('hide')
+        .should('not.be.visible')
+    cy.get('.error')
+        .should('not.be.visible')
+        .invoke('show')
+        .should('be.visible')
+        .and('contain', 'Valide os campos obrigatórios!')
+        .invoke('hide')
+        .should('not.be.visible')
+  })
+
+    it('preenche a area de texto usando o comando invoke', ()=>{
+        const longText = 'ola'
+        cy.get('#open-text-area')
+           .invoke('val', longText) // puxa o valor que esta na const. para o campo solicitado
+           .should('have.value', longText)
+    })
+
+
+
 });
