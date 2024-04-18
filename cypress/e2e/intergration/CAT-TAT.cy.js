@@ -109,7 +109,7 @@ describe("Central de Atendimento ao Cliente TAT", () => {
 
   // comando customizado reduz as linhas do comando de teste, como mostra abaixo
   // elementos estao em commands.js , e vem para o teste ao inves de preencher todos elemento no proprio teste
-   it("test enviar o formulário com sucesso usando um comando customizado", function(){
+  it("test enviar o formulário com sucesso usando um comando customizado", function(){
 
 
      cy.fillMandatoryFieldsAndSubmit();
@@ -219,12 +219,36 @@ describe("Central de Atendimento ao Cliente TAT", () => {
         .should('not.be.visible')
   })
 
-    it('preenche a area de texto usando o comando invoke', ()=>{
+  it('preenche a area de texto usando o comando invoke', ()=>{
         const longText = 'ola'
         cy.get('#open-text-area')
            .invoke('val', longText) // puxa o valor que esta na const. para o campo solicitado
            .should('have.value', longText)
     })
+
+  it('faz uma requisição HTTP',()=>{
+    cy.request('https://cac-tat.s3.eu-central-1.amazonaws.com/index.html')
+        .should((response)=>{
+            const {status, statusText, body}= response
+            expect(status).to.equal(200)
+            expect(statusText).to.equal('OK')
+            expect(body).to.include('CAC TAT')
+        })
+    })
+
+  it.only('encontrar o gato escondido',()=>{
+      cy.get('#cat')
+          .invoke('show')
+          .should('be.visible')
+          .invoke('hide')
+
+      cy.get('#title')
+          .invoke('text',"CAT TAT")
+
+      cy.get('#subtitle')
+          .invoke('text',"ESTE SITE É O SITE DE CADASTROS...")
+
+  })
 
 
 
