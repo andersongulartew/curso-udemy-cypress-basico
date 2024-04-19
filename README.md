@@ -1,31 +1,25 @@
-# 
+# Cypress Básico
 
-# cypress-basico
+* O conhecimento é o único bem que não pode ser roubado, mas depende de nós a aquisição! 💻📚🧑‍🎓
 
-[![main](https://github.com/wlsf82/cy-data-test/actions/workflows/ci.yml/badge.svg)](https://github.com/wlsf82/cy-data-test/actions)
+# 📦 Sobre Projeto de estudos.
 
-Sample project for the basic course of the Talking About Testing online School.
+- Aprenda como criar testes confiáveis e rápidos de forma simples e objetiva.
 
-## Pre-requirements
+- Aprenda como rodar testes automatizados escritos com Cypress em um pipeline de integração contínua no GitHub Actions
 
-It is required to have Node.js and npm installed to run this project.
+- Aprenda como interagir com os elementos mais comuns encontrados em aplicações web
 
-> I used versions `v18.15.0` and `9.5.0` of Node.js and npm, respectively. I suggest you use the same or later versions.
+- Aprenda como criar os mais diversos tipos de verificações de resultados esperados com Cypress
 
-## Installation
+#  ⚙️ Instalação Cypress
 
-Run `npm install` (or `npm i` for the short version) to install the dev dependencies.
+. `npm init -y` -  Ele criará o arquivo package.json
 
-## Tests
+. `npm install cypress` - É o comando para instalar o Cypress
 
-Run `npm test` (or `npm t` for the short version) to run the test in headless mode.
+. `npm cypress open` - Para abrir o Cypress e começar o projeto
 
-Or, run `npm run cy:open` to open Cypress in interactive mode.
 
-## Support this project
-
-If you want to support this project, leave a ⭐.
-
----
-
-This project was created with 💚 by [Walmyr](https://walmyr.dev).
+#  📱📲 Clone  este repositório
+ $ git clone https://github.com/andersongulartew/curso-udemy-cypress-basico.git
